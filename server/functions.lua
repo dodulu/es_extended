@@ -38,7 +38,7 @@ end
 
 ESX.SavePlayer = function(xPlayer, cb)
 	local asyncTasks = {}
-	xPlayer.setLastPosition(xPlayer.getCoords())
+	--xPlayer.setLastPosition(xPlayer.getCoords())
 
 	-- User accounts
 	for i=1, #xPlayer.accounts, 1 do
@@ -76,11 +76,11 @@ ESX.SavePlayer = function(xPlayer, cb)
 
 	-- Job, loadout and position
 	table.insert(asyncTasks, function(cb)
-		MySQL.Async.execute('UPDATE users SET `job` = @job, `job_grade` = @job_grade, `loadout` = @loadout, `position` = @position WHERE identifier = @identifier', {
+		MySQL.Async.execute('UPDATE users SET `job` = @job, `job_grade` = @job_grade, `loadout` = @loadout WHERE identifier = @identifier', {
 			['@job']        = xPlayer.job.name,
 			['@job_grade']  = xPlayer.job.grade,
 			['@loadout']    = json.encode(xPlayer.getLoadout()),
-			['@position']   = json.encode(xPlayer.getLastPosition()),
+			--['@position']   = json.encode(xPlayer.getLastPosition()),
 			['@identifier'] = xPlayer.identifier
 		}, function(rowsChanged)
 			cb()
